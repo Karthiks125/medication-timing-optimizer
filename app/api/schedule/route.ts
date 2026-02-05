@@ -269,13 +269,25 @@ export async function POST(request: NextRequest) {
 
     // Validate request origin in production
     const origin = request.headers.get('origin');
-    const allowedOrigins = [
+    const allowedOrigins: string[] = [
       'http://localhost:3000',
-      'https://your-domain.vercel.app', // Replace with actual domain
+      'https://medication-timing-optimizer.vercel.app', // Your specific Vercel URL
+      'https://*.vercel.app', // Allow all Vercel deployments
       process.env.NEXT_PUBLIC_SITE_URL
-    ].filter(Boolean);
+    ].filter((item): item is string => Boolean(item));
     
-    if (process.env.NODE_ENV === 'production' && origin && !allowedOrigins.includes(origin)) {
+    // More flexible origin checking for Vercel
+    const isAllowedOrigin = !origin || // Allow requests with no origin (like mobile apps)
+      allowedOrigins.some((allowed: string) => {
+        if (allowed.includes('*')) {
+          const pattern = allowed.replace('*', '.*');
+          return new RegExp(`^${pattern}$`).test(origin);
+        }
+        return allowed === origin;
+      });
+    
+    if (process.env.NODE_ENV === 'production' && origin && !isAllowedOrigin) {
+      console.log('Blocked origin:', origin);
       return NextResponse.json(
         { error: 'Unauthorized origin' },
         { status: 403 }
