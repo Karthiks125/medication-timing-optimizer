@@ -271,7 +271,7 @@ export async function POST(request: NextRequest) {
     const origin = request.headers.get('origin');
     const allowedOrigins: string[] = [
       'http://localhost:3000',
-      'https://medication-timing-optimizer.vercel.app', // Your specific Vercel URL
+      'https://medication-timing-optimizer-abc.vercel.app', // Your actual Vercel URL
       'https://*.vercel.app', // Allow all Vercel deployments
       process.env.NEXT_PUBLIC_SITE_URL
     ].filter((item): item is string => Boolean(item));
