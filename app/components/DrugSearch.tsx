@@ -355,23 +355,13 @@ export default function DrugSearch({ onAddMedication, onMedicationEnhanced }: Dr
     const hasSlashInGeneric = medications.some(med => med.generic_name.includes('/'));
     const hasSlashInStrength = medications.some(med => med.strength.includes('/'));
     
-    // Debug logging
-    console.log(`Checking combination for ${medications[0].brand_name}:`, {
-      baseGenericNames,
-      uniqueGenericNames,
-      hasSlashInGeneric,
-      hasSlashInStrength
-    });
-    
     // Primary check: Different generic names with same brand = combination
     if (uniqueGenericNames.length > 1) {
-      console.log(`✓ ${medications[0].brand_name} detected as combination (different generics)`);
       return true;
     }
     
     // Secondary check: Explicit slash separators in generic name or strength
     if (hasSlashInGeneric || hasSlashInStrength) {
-      console.log(`✓ ${medications[0].brand_name} detected as combination (slash separator)`);
       return true;
     }
     
@@ -383,11 +373,9 @@ export default function DrugSearch({ onAddMedication, onMedicationEnhanced }: Dr
     });
     
     if (hasDifferentForms) {
-      console.log(`✓ ${medications[0].brand_name} detected as combination (different forms)`);
       return true;
     }
     
-    console.log(`✗ ${medications[0].brand_name} NOT detected as combination`);
     return false;
   };
 
