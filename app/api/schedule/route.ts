@@ -663,24 +663,38 @@ Do not include any explanations or additional text in your response.`;
 
     console.log('📤 Sending request to Gemini API...');
 
-    // Call Gemini API with error handling
+    // Call Gemini API with error handling and retry
     let text = '';
-    try {
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      text = response.text();
-      console.log('✅ Received response from Gemini API');
-    } catch (apiError) {
-      console.error('❌ Gemini API Error:', apiError);
-      // Fallback to local optimization
-      const fallbackSchedule = optimizeSchedule(sortedMedications, uniqueInteractions);
-      return NextResponse.json({
-        schedule: fallbackSchedule,
-        interactions: uniqueInteractions,
-        success: true,
-        fallback: true,
-        error: 'AI service unavailable, using local optimization'
-      });
+    let retryCount = 0;
+    const maxRetries = 3;
+    
+    while (retryCount < maxRetries) {
+      try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        text = response.text();
+        console.log('✅ Received response from Gemini API');
+        break; // Success, exit retry loop
+      } catch (apiError) {
+        retryCount++;
+        console.error(`❌ Gemini API Error (attempt ${retryCount}/${maxRetries}):`, apiError);
+        
+        if (retryCount >= maxRetries) {
+          console.error('❌ All retry attempts failed, using fallback');
+          // Fallback to local optimization
+          const fallbackSchedule = optimizeSchedule(sortedMedications, uniqueInteractions);
+          return NextResponse.json({
+            schedule: fallbackSchedule,
+            interactions: uniqueInteractions,
+            success: true,
+            fallback: true,
+            error: 'Gemini API service unavailable, using local optimization'
+          });
+        }
+        
+        // Wait before retry (exponential backoff)
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+      }
     }
 
     // Parse the AI response
