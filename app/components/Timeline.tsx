@@ -688,7 +688,7 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
                   </span>
                 </div>
               ) : (
-                <div className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-2xl font-black text-2xl sm:text-3xl text-center sm:text-left shadow-lg">
+                <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-2xl font-black text-2xl sm:text-3xl text-center sm:text-left shadow-xl transform hover:scale-105 transition-all duration-300">
                   {formatTime(slot.time)}
                 </div>
               )}
@@ -710,7 +710,7 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
                   return (
                     <div 
                       key={`${slot.time}-${med.rxcui || genericName || 'unknown'}-${medIndex}`}
-                      className="p-5 bg-gray-50 rounded-xl border-l-4 border-green-500 hover:bg-gray-100 transition-colors"
+                      className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border-l-4 border-green-500 hover:from-green-100 hover:to-emerald-100 transition-all duration-300 transform hover:scale-102 shadow-md"
                     >
                       {/* MEDICATION NAME */}
                       <h4 className="font-black text-black text-xl mb-3 break-words">
@@ -740,19 +740,19 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
                         return (
                           <div className="flex flex-wrap gap-2 mt-3">
                             {foodData.foods_to_take_with && foodData.foods_to_take_with.length > 0 && (
-                              <div className="inline-flex items-center gap-2 px-4 py-3 bg-green-100 border-2 border-green-400 rounded-full text-base font-bold text-green-800 shadow-md hover:bg-green-200 transition-colors">
+                              <div className="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-400 rounded-full text-base font-bold text-green-800 shadow-lg hover:from-green-200 hover:to-emerald-200 transition-all duration-300 transform hover:scale-105">
                                 <span className="text-xl">🍽️</span>
                                 <span>Take with: {foodData.foods_to_take_with.join(', ')}</span>
                               </div>
                             )}
                             {foodData.foods_to_avoid && foodData.foods_to_avoid.length > 0 && (
-                              <div className="inline-flex items-center gap-2 px-4 py-3 bg-red-100 border-2 border-red-400 rounded-full text-base font-bold text-red-800 shadow-md hover:bg-red-200 transition-colors">
+                              <div className="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-red-100 to-rose-100 border-2 border-red-400 rounded-full text-base font-bold text-red-800 shadow-lg hover:from-red-200 hover:to-rose-200 transition-all duration-300 transform hover:scale-105">
                                 <span className="text-xl">🚫</span>
                                 <span>Avoid: {foodData.foods_to_avoid.join(', ')}</span>
                               </div>
                             )}
                             {foodData.guidance_text && (
-                              <div className="inline-flex items-center gap-2 px-4 py-3 bg-blue-100 border-2 border-blue-400 rounded-full text-base font-bold text-blue-800 shadow-md hover:bg-blue-200 transition-colors">
+                              <div className="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-100 to-cyan-100 border-2 border-blue-400 rounded-full text-base font-bold text-blue-800 shadow-lg hover:from-blue-200 hover:to-cyan-200 transition-all duration-300 transform hover:scale-105">
                                 <span className="text-xl">💡</span>
                                 <span>{foodData.guidance_text}</span>
                               </div>

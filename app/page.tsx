@@ -357,18 +357,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white bg-green-600 px-8 py-4 rounded-2xl inline-block shadow-lg mb-4">
-            Medication Timing Optimizer
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-4">
+          <div className="inline-block">
+            <h1 className="text-4xl sm:text-5xl font-bold text-white bg-gradient-to-r from-green-600 to-emerald-600 px-8 py-4 rounded-2xl shadow-xl mb-4 transform hover:scale-105 transition-all duration-300">
+              Medication Timing Optimizer
+            </h1>
+          </div>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-6 leading-relaxed">
             Organize your medications by optimal timing and check for potential interactions
           </p>
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 max-w-2xl mx-auto">
-            <p className="text-sm text-amber-800 font-medium">
-              <span className="font-bold">⚠️ Disclaimer:</span> This tool is for general informational purposes only. 
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-6 max-w-2xl mx-auto shadow-sm">
+            <p className="text-sm text-amber-800 font-medium leading-relaxed">
+              <span className="font-bold text-amber-900">⚠️ Disclaimer:</span> This tool is for general informational purposes only. 
               Always consult with your healthcare provider before making any changes to your medication schedule. 
               Individual medical needs may vary.
             </p>
@@ -377,9 +379,11 @@ export default function Home() {
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <div className="xl:col-span-2 space-y-6">
-            <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <Plus className="w-6 h-6 text-green-600" />
+            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <Plus className="w-5 h-5 text-white" />
+                </div>
                 Add Your Medications
               </h2>
               
@@ -388,10 +392,10 @@ export default function Home() {
               />
 
               {medications.length > 0 && (
-                <div className="mt-4 flex justify-end">
+                <div className="mt-6 flex justify-end">
                   <button
                     onClick={handleClearAllMedications}
-                    className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg font-medium hover:from-red-600 hover:to-red-700 transition-all transform hover:scale-105 flex items-center gap-2 text-sm shadow-md"
+                    className="bg-gradient-to-r from-red-500 to-rose-600 text-white px-6 py-3 rounded-xl font-medium hover:from-red-600 hover:to-rose-700 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 text-sm shadow-lg"
                   >
                     <Trash2 className="w-4 h-4" />
                     Clear All Medications
@@ -412,43 +416,45 @@ export default function Home() {
             </div>
 
             {medications.length > 0 && (
-              <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-green-600" />
+              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-white" />
+                  </div>
                   Generate Schedule
                 </h2>
                 
                 <button
                   onClick={handleOptimizeSchedule}
                   disabled={isGeneratingSchedule}
-                  className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg font-medium hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg text-lg"
+                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3 shadow-xl text-lg"
                 >
                   {isGeneratingSchedule ? (
                     <>
                       <div className="relative">
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                        <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent"></div>
                       </div>
                       <span>AI is optimizing your schedule...</span>
                     </>
                   ) : (
                     <>
-                      <CheckCircle className="w-5 h-5" />
+                      <CheckCircle className="w-6 h-6" />
                       <span>Optimize Medication Timing</span>
                     </>
                   )}
                 </button>
 
                 {isGeneratingSchedule && (
-                  <div className="mt-4 text-center">
-                    <p className="text-lg text-gray-600 mb-3 font-medium">
+                  <div className="mt-6 text-center">
+                    <p className="text-lg text-gray-700 mb-4 font-medium">
                       {loadingStep === 1 && '🔍 Analyzing medications...'}
                       {loadingStep === 2 && '⚡ Checking drug interactions...'}
                       {loadingStep === 3 && '🧠 Optimizing timing...'}
                       {loadingStep === 4 && '✨ Generating schedule...'}
                     </p>
-                    <div className="w-full bg-gray-200 rounded-full h-3 shadow-inner">
+                    <div className="w-full bg-gray-200 rounded-full h-4 shadow-inner overflow-hidden">
                       <div 
-                        className="bg-gradient-to-r from-green-600 to-green-700 h-3 rounded-full transition-all duration-500 shadow-lg"
+                        className="bg-gradient-to-r from-green-600 to-emerald-600 h-4 rounded-full transition-all duration-500 shadow-lg"
                         style={{ width: `${(loadingStep / 4) * 100}%` }}
                       />
                     </div>
@@ -459,34 +465,36 @@ export default function Home() {
 
             {/* SCHEDULE SECTION - APPEARS AFTER GENERATION */}
             {schedule.length > 0 && (
-              <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
-                  <h2 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
-                    <Calendar className="w-6 h-6 text-green-600" />
+              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                  <h2 className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-white" />
+                    </div>
                     Your Optimized Schedule
                   </h2>
                   
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     {!isEditingTimes ? (
                       <button
                         onClick={handleEditToggle}
-                        className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center gap-2 shadow-sm"
+                        className="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 px-6 py-3 rounded-xl text-sm font-medium hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-md"
                       >
                         <Edit2 className="w-4 h-4" />
                         Edit Times
                       </button>
                     ) : (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         <button
                           onClick={handleCancelEdit}
-                          className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all transform hover:scale-105 flex items-center gap-2 shadow-sm"
+                          className="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 px-6 py-3 rounded-xl text-sm font-medium hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-md"
                         >
                           <X className="w-4 h-4" />
                           Cancel
                         </button>
                         <button
                           onClick={handleApplyTimeChanges}
-                          className="bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-200 transition-all transform hover:scale-105 flex items-center gap-2 shadow-sm"
+                          className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 px-6 py-3 rounded-xl text-sm font-medium hover:from-green-200 hover:to-emerald-200 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 shadow-md"
                         >
                           <Save className="w-4 h-4" />
                           Save
@@ -502,19 +510,19 @@ export default function Home() {
                   onTimeChange={handleTimeChange}
                 />
 
-                <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                <div className="mt-8 flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleDownloadPDF}
-                    className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg font-medium hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg text-lg"
+                    className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-red-700 hover:to-rose-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3 shadow-xl text-lg"
                   >
-                    <Download className="w-5 h-5" />
+                    <Download className="w-6 h-6" />
                     Download PDF
                   </button>
                   <button
                     onClick={handleAddToCalendar}
-                    className="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg font-medium hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg text-lg"
+                    className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-3 shadow-xl text-lg"
                   >
-                    <Calendar className="w-5 h-5" />
+                    <Calendar className="w-6 h-6" />
                     Add to Calendar
                   </button>
                 </div>
@@ -522,9 +530,11 @@ export default function Home() {
             )}
 
             {schedule.length > 0 && (
-              <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <AlertTriangle className="w-6 h-6 text-red-600" />
+              <div className="bg-white rounded-2xl shadow-lg border border-red-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-rose-500 rounded-lg flex items-center justify-center">
+                    <AlertTriangle className="w-5 h-5 text-white" />
+                  </div>
                   Drug Interactions
                 </h2>
                 
@@ -534,64 +544,64 @@ export default function Home() {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
                   <span className="text-white text-sm font-bold">?</span>
                 </div>
                 How It Works
               </h3>
-              <div className="space-y-4 text-gray-600">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">1</div>
-                  <p className="text-base font-medium">Add your medications using the smart search</p>
+              <div className="space-y-5 text-gray-700">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">1</div>
+                  <p className="text-base font-medium leading-relaxed">Add your medications using smart search</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">2</div>
-                  <p className="text-base font-medium">Click "Optimize" to analyze timing and interactions</p>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">2</div>
+                  <p className="text-base font-medium leading-relaxed">Click "Optimize" to analyze timing and interactions</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">3</div>
-                  <p className="text-base font-medium">Review your personalized medication schedule</p>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">3</div>
+                  <p className="text-base font-medium leading-relaxed">Review your personalized medication schedule</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-md">4</div>
-                  <p className="text-base font-medium">Download PDF or add to your calendar</p>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">4</div>
+                  <p className="text-base font-medium leading-relaxed">Download PDF or add to your calendar</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
                   <span className="text-white text-sm">✓</span>
                 </div>
                 Key Features
               </h3>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-base font-medium text-gray-700">AI-powered medication timing optimization</p>
+                  <p className="text-base font-medium text-gray-700 leading-relaxed">AI-powered medication timing optimization</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-base font-medium text-gray-700">Drug interaction checking and warnings</p>
+                  <p className="text-base font-medium text-gray-700 leading-relaxed">Drug interaction checking and warnings</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-base font-medium text-gray-700">Food interaction guidance</p>
+                  <p className="text-base font-medium text-gray-700 leading-relaxed">Food interaction guidance</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <span className="text-white text-sm">✓</span>
                   </div>
-                  <p className="text-base font-medium text-gray-700">PDF and calendar export options</p>
+                  <p className="text-base font-medium text-gray-700 leading-relaxed">PDF and calendar export options</p>
                 </div>
               </div>
             </div>
