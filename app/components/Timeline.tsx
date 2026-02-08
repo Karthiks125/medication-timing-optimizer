@@ -622,7 +622,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
           severity: 'Moderate',
           detailed_advice: 'Remove contact lenses before applying eye drops. Wait 15 minutes before reinserting.'
         };
-        console.log(`✅ DEBUG: Using Tobradex-specific food data`);
       } else if (genericName.includes('metformin')) {
         foodData = {
           foods_to_avoid: ['Excessive alcohol'],
@@ -631,7 +630,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
           severity: 'Moderate',
           detailed_advice: 'Always take with food to minimize stomach upset.'
         };
-        console.log(`✅ DEBUG: Using Metformin-specific food data`);
       } else if (genericName.includes('lisinopril')) {
         foodData = {
           foods_to_avoid: ['Potassium supplements', 'Salt substitutes'],
@@ -640,7 +638,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
           severity: 'Moderate',
           detailed_advice: 'Avoid potassium-rich salt substitutes while taking this medication.'
         };
-        console.log(`✅ DEBUG: Using Lisinopril-specific food data`);
       }
     }
     
@@ -656,13 +653,10 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
   return (
     <div className="space-y-6">
       {schedule.map((slot, index) => {
-        console.log(`\n📍 Rendering Slot ${index + 1}: ${formatTime(slot.time)}`);
-        console.log(`   Medications in slot: ${slot.medications?.length || 0}`);
-        
         return (
           <div 
-            key={index} 
-            className="p-6 bg-white border-2 border-gray-300 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]"
+            key={index}
+            className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
             {/* TIME HEADER */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 pb-4 border-b-2 border-green-200">
@@ -694,8 +688,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
             <div className="space-y-4">
               {slot.medications && slot.medications.length > 0 ? (
                 slot.medications.map((med, medIndex) => {
-                  console.log(`  Rendering med ${medIndex}:`, med);
-                  
                   // Handle both API response formats
                   const brandName = med.brand_name || med.name || 'Unknown Medication';
                   const genericName = med.generic_name || med.generic || 'Unknown Medication';
