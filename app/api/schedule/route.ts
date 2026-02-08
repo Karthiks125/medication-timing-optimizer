@@ -10,11 +10,8 @@ function detectCombinationMedication(med: any): boolean {
   const genericName = (med.generic_name || '').toLowerCase();
   const strength = med.strength || '';
   
-  console.log(`🔍 Checking combination for: ${brandName} / ${genericName} / ${strength}`);
-  
   // Check for strength-based combinations (e.g., "0.3%/0.1%")
   if (strength.includes('/') || strength.includes('+')) {
-    console.log(`✅ Found strength-based combination: ${strength}`);
     return true;
   }
   
@@ -26,14 +23,12 @@ function detectCombinationMedication(med: any): boolean {
   
   for (const combo of knownCombinations) {
     if (brandName.includes(combo)) {
-      console.log(`✅ Found known combination: ${combo} in ${brandName}`);
       return true;
     }
   }
   
   // Check for generic name combinations
   if (genericName.includes('/') || genericName.includes(' and ') || genericName.includes(' + ')) {
-    console.log(`✅ Found generic combination: ${genericName}`);
     return true;
   }
   
@@ -310,33 +305,12 @@ export async function POST(request: NextRequest) {
 
     console.log(`✅ Received ${medications.length} medications`);
 
-    // Debug: Log each medication's fields
-    medications.forEach((med: any, index: number) => {
-      console.log(`🔍 DEBUG: Medication ${index + 1}:`, {
-        id: med.id,
-        brand_name: med.brand_name,
-        generic_name: med.generic_name,
-        strength: med.strength,
-        dosage_form: med.dosage_form,
-        category: med.category,
-        frequency: med.frequency,
-        timing_info: med.timing_info,
-        isCombination: med.isCombination,
-        components: med.components
-      });
-    });
-
-    // Ensure all medications have required fields with better debugging
     // Process medications and identify combination products
-    console.log('🔄 Processing medications...');
     const processedMedications = medications.map((med: any, index: number) => {
-      // Re-enable combination detection
       const isCombination = Boolean(med.isCombination) || detectCombinationMedication(med);
       const derivedCombinationComponents = Array.isArray(med.components)
         ? med.components.map((c: any) => c?.generic_name).filter(Boolean)
         : null;
-      
-      console.log(`🔄 Processing medication ${index + 1}: ${med.brand_name}`);
       
       const processed = {
         ...med,
@@ -588,12 +562,8 @@ export async function POST(request: NextRequest) {
     });
 
     // Check critical interactions (takes precedence)
-    console.log('🔍 Checking critical interactions...');
-    console.log('📋 Available medication names:', medicationNames);
-    
     criticalInteractions.forEach((critical: any) => {
       if (medicationNames.includes(critical.drug1) && medicationNames.includes(critical.drug2)) {
-        console.log(`✅ Found critical interaction: ${critical.drug1} + ${critical.drug2} (${critical.severity})`);
         
         // Check if this interaction is already found
         const existingIndex = foundInteractions.findIndex(i => 
