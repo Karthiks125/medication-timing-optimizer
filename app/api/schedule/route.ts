@@ -606,10 +606,19 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Validate API key
+    if (!apiKey || apiKey.length < 10) {
+      console.error('❌ Invalid or missing Gemini API key');
+      return NextResponse.json(
+        { error: 'Invalid API configuration' },
+        { status: 500 }
+      );
+    }
+
     console.log('✅ API key loaded, length:', apiKey.length);
 
     const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
 
 
@@ -654,12 +663,25 @@ Do not include any explanations or additional text in your response.`;
 
     console.log('📤 Sending request to Gemini API...');
 
-    // Call Gemini API
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-
-    console.log('✅ Received response from Gemini API');
+    // Call Gemini API with error handling
+    let text = '';
+    try {
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      text = response.text();
+      console.log('✅ Received response from Gemini API');
+    } catch (apiError) {
+      console.error('❌ Gemini API Error:', apiError);
+      // Fallback to local optimization
+      const fallbackSchedule = optimizeSchedule(sortedMedications, uniqueInteractions);
+      return NextResponse.json({
+        schedule: fallbackSchedule,
+        interactions: uniqueInteractions,
+        success: true,
+        fallback: true,
+        error: 'AI service unavailable, using local optimization'
+      });
+    }
 
     // Parse the AI response
     let schedule: ScheduleItem[] = [];
