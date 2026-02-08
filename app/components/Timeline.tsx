@@ -576,9 +576,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
     const genericName = medication.generic_name?.toLowerCase() || medication.generic?.toLowerCase() || '';
     const brandName = medication.brand_name?.toLowerCase() || medication.name?.toLowerCase() || '';
     
-    console.log(`🔍 DEBUG: Looking up food interactions for: ${brandName} / ${genericName}`);
-    console.log(`📊 DEBUG: API timing_info:`, medication.timing_info);
-
     const timingWithFood = medication.timing_info?.with_food?.trim();
     const timingWithFoodLower = (timingWithFood || '').toLowerCase();
 
@@ -596,7 +593,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
     const guidanceText = isPlaceholderGuidance ? null : timingWithFood;
     
     // Fallback to local database if API data is not available
-    console.log(`⚠️ DEBUG: Falling back to local database for explicit food rules`);
     
     // Try generic name first
     let foodData = DRUG_FOOD_INTERACTIONS_DB[genericName];
@@ -611,7 +607,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
       for (const [key, value] of Object.entries(DRUG_FOOD_INTERACTIONS_DB)) {
         if (genericName.includes(key) || brandName.includes(key) || key.includes(genericName) || key.includes(brandName)) {
           foodData = value;
-          console.log(`🔗 DEBUG: Found partial match: ${key}`);
           break;
         }
       }
@@ -623,7 +618,7 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
         foodData = {
           foods_to_avoid: ['Contact lenses', 'Other eye drops'],
           foods_to_take_with: [],
-          timing_requirements: 'Wait 15 minutes before inserting contact lenses',
+          timing_requirements: 'Can be taken with or without food',
           severity: 'Moderate',
           detailed_advice: 'Remove contact lenses before applying eye drops. Wait 15 minutes before reinserting.'
         };
@@ -632,7 +627,7 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
         foodData = {
           foods_to_avoid: ['Excessive alcohol'],
           foods_to_take_with: ['Food'],
-          timing_requirements: 'Take with meals to reduce gastrointestinal side effects',
+          timing_requirements: 'Always take with food',
           severity: 'Moderate',
           detailed_advice: 'Always take with food to minimize stomach upset.'
         };
@@ -640,8 +635,8 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
       } else if (genericName.includes('lisinopril')) {
         foodData = {
           foods_to_avoid: ['Potassium supplements', 'Salt substitutes'],
-          foods_to_take_with: ['Without food'],
-          timing_requirements: 'Take at the same time each day',
+          foods_to_take_with: [],
+          timing_requirements: 'Can be taken with or without food',
           severity: 'Moderate',
           detailed_advice: 'Avoid potassium-rich salt substitutes while taking this medication.'
         };
@@ -649,8 +644,6 @@ export default function Timeline({ schedule, onTimeChange, isEditing = false }: 
       }
     }
     
-    console.log(`📊 DEBUG: Food data found:`, foodData);
-
     if (!guidanceText && !foodData) return null;
 
     return {
